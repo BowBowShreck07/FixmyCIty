@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Smart City Public Works Feedback</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Login overlay -->
+    <div id="loginOverlay" class="login-overlay">
+      <div class="login-card">
+        <h2 class="login-title">Login</h2>
+        <p class="login-subtitle">
+          Enter your credentials to use the app.
+        </p>
+
+        <form id="loginForm">
+          <div class="field-row login-field">
+            <label for="loginUsername" class="login-username-label">Username</label>
+            <input
+              type="text"
+              id="loginUsername"
+              name="username"
+              placeholder="Enter username"
+              required
+            />
+          </div>
+
+          <div class="field-row login-field">
+            <label for="loginPassword" class="login-password-label">Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+
+          <p class="login-hint">
+            Demo only: you can use any username and password.
+          </p>
+
+          <div class="form-actions login-actions">
+            <button type="submit" class="btn primary login-button">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <header class="app-header">
+      <div class="app-header-inner">
+        <div class="header-left">
+          <!-- put your PNG at e:\Code\Visual studio code\Fixmycity\assets\logo.png -->
+          <img src="logo.jpeg" alt="Fix My City logo" class="app-logo" />
+          <div>
+            <h1>Fix My City</h1>
+            <p>Building a better tomorrow.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn active" data-lang="en">
+              English
+            </button>
+            <button type="button" class="lang-btn" data-lang="ta">
+              தமிழ்
+            </button>
+          </div>
+
+          <div class="stats" id="statsSummary">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="panel panel-form">
+        <h2>New Feedback / Issue</h2>
+        <form id="reportForm">
+          <div class="field-row">
+            <label for="issueTitle">Title</label>
+            <input
+              type="text"
+              id="issueTitle"
+              name="title"
+              placeholder="Example: Street light not working"
+              required
+            />
+          </div>
+
+          <div class="field-grid">
+            <div class="field-row">
+              <label for="issueCategory">Category</label>
+              <select id="issueCategory" name="category" required>
+                <option value="">Select a category</option>
+                <option value="Roads">Roads</option>
+                <option value="Street Lights">Street Lights</option>
+                <option value="Waste Management">Waste Management</option>
+                <option value="Water Supply">Water Supply</option>
+                <option value="Parks & Public Spaces">Parks & Public Spaces</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field-row">
+              <label for="issuePriority">Priority</label>
+              <select id="issuePriority" name="priority" required>
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label for="issueLocation">Location</label>
+            <input
+              type="text"
+              id="issueLocation"
+              name="location"
+              placeholder="Landmark, street name, or area"
+              required
+            />
+          </div>
+
+          <div class="field-row">
+            <label for="mobileNumber">Mobile number</label>
+            <input
+              type="tel"
+              id="mobileNumber"
+              name="phone"
+              placeholder="Enter your mobile number"
+              required
+            />
+          </div>
+
+          <div class="field-row">
+            <label for="photoFile">Photo</label>
+            <input
+              type="file"
+              id="photoFile"
+              name="photo"
+              accept="image/*"
+            />
+          </div>
+
+          <div class="field-row">
+            <label for="videoFile">Video</label>
+            <input
+              type="file"
+              id="videoFile"
+              name="video"
+              accept="video/*"
+            />
+          </div>
+
+          <div class="field-row">
+            <label for="issueDescription">Description</label>
+            <textarea
+              id="issueDescription"
+              name="description"
+              rows="3"
+              placeholder="Describe the issue in a few lines"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary">Submit Report</button>
+            <button type="reset" class="btn ghost">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel panel-feed">
+        <header class="panel-header">
+          <div>
+            <h2>Public Works Feed</h2>
+            <p>Latest reported issues and their status.</p>
+          </div>
+          <div class="filter-row">
+            <select id="statusFilter">
+              <option value="all">All statuses</option>
+              <option value="open">Open only</option>
+              <option value="in_progress">In progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+            <select id="sortOrder">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+            <button type="button" id="clearFeedButton" class="btn ghost small">
+              Clear feed
+            </button>
+          </div>
+        </header>
+
+        <div id="feedList" class="feed-list">
+          <!-- Cards filled by JS -->
+        </div>
+
+        <div class="empty-state" id="emptyState">
+          <p>No issues reported yet. Be the first to report a public works problem.</p>
+        </div>
+      </section>
+    </main>
+
+    <div id="successOverlay" class="success-overlay">
+      <div class="success-card">
+        <h2 class="success-title">Submitted successfully</h2>
+        <p class="success-subtitle">
+          Your report has been submitted successfully.
+        </p>
+        <div class="form-actions success-actions">
+          <button type="button" id="successOkButton" class="btn primary">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="editOverlay" class="edit-overlay">
+      <div class="edit-card">
+        <h2 class="edit-title">Edit complaint</h2>
+        <form id="editForm">
+          <div class="field-row">
+            <label for="editIssueTitle">Title</label>
+            <input type="text" id="editIssueTitle" />
+          </div>
+
+          <div class="field-grid">
+            <div class="field-row">
+              <label for="editIssueCategory">Category</label>
+              <select id="editIssueCategory">
+                <option value="">Select a category</option>
+                <option value="Roads">Roads</option>
+                <option value="Street Lights">Street Lights</option>
+                <option value="Waste Management">Waste Management</option>
+                <option value="Water Supply">Water Supply</option>
+                <option value="Parks & Public Spaces">Parks & Public Spaces</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field-row">
+              <label for="editIssuePriority">Priority</label>
+              <select id="editIssuePriority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label for="editIssueLocation">Location</label>
+            <input type="text" id="editIssueLocation" />
+          </div>
+
+          <div class="field-row">
+            <label for="editMobileNumber">Mobile number</label>
+            <input type="tel" id="editMobileNumber" />
+          </div>
+
+          <div class="field-row">
+            <label for="editIssueDescription">Description</label>
+            <textarea id="editIssueDescription" rows="3"></textarea>
+          </div>
+
+          <div class="form-actions edit-actions">
+            <button type="button" id="editCancelButton" class="btn ghost">
+              Cancel
+            </button>
+            <button type="submit" id="editSaveButton" class="btn primary">
+              Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="app-footer">
+      <p>Smart City Public Works Feedback &bull; Demo interface (local only)</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
